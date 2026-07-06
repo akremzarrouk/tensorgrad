@@ -110,7 +110,9 @@ def draw_graph(root: Tensor, out_path: str,
     for n in nodes:
         x, y = pos[id(n)]
         is_leaf = not n._prev
-        header = n.label if n.label else (n._op if n._op else "input")
+        # Unlabelled leaves are constants the engine wrapped automatically
+        # (e.g. the -1 inside a subtraction).
+        header = n.label if n.label else (n._op if n._op else "const")
         text = (f"{header}\n"
                 f"value: {_fmt(n.data)}\n"
                 f"grad: {_fmt(n.grad) if n.grad.size > 1 else f'{float(n.grad):.3g}'}")
