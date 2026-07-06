@@ -92,6 +92,76 @@ def plot_gradient_flow(named_grads: dict, out_path: str,
     return out_path
 
 
+def plot_decision_boundary(predict_fn, X: np.ndarray, y: np.ndarray,
+                           out_path: str, resolution: int = 300,
+                           title: str = "Learned decision boundary") -> str:
+    """Shade the 2-D plane by predicted class and overlay the training data.
+
+    ``predict_fn`` maps an ``(N, 2)`` array of points to ``(N,)`` integer class
+    predictions. Only meaningful for 2-D inputs (e.g. the spirals dataset).
+    """
+    _ensure_dir(out_path)
+    pad = 0.15
+    x_min, x_max = X[:, 0].min() - pad, X[:, 0].max() + pad
+    y_min, y_max = X[:, 1].min() - pad, X[:, 1].max() + pad
+    xx, yy = np.meshgrid(np.linspace(x_min, x_max, resolution),
+                         np.linspace(y_min, y_max, resolution))
+    grid = np.c_[xx.ravel(), yy.ravel()]
+    zz = predict_fn(grid).reshape(xx.shape)
+
+    fig, ax = plt.subplots(figsize=(6.5, 6))
+    ax.contourf(xx, yy, zz, levels=np.arange(zz.max() + 2) - 0.5,
+                cmap="Pastel1", alpha=0.9)
+    ax.scatter(X[:, 0], X[:, 1], c=y, cmap="Set1", s=14,
+               edgecolors="black", linewidths=0.4)
+    ax.set_xlabel("$x_1$")
+    ax.set_ylabel("$x_2$")
+    ax.set_title(title)
+    ax.grid(False)
+
+    fig.savefig(out_path)
+    plt.close(fig)
+    return out_path
+
+
+def plot_confusion_matrix(true_labels: np.ndarray, pred_labels: np.ndarray,
+                          out_path: str, num_classes: int = 10,
+                          title: str = "Confusion matrix (test set)") -> str:
+    """Heatmap of true class vs predicted class with counts annotated.
+
+    Off-diagonal cells are the interesting ones: they show which classes the
+    model confuses (for MNIST, classically 4 vs 9 and 3 vs 5).
+    """
+    _ensure_dir(out_path)
+    cm = np.zeros((num_classes, num_classes), dtype=int)
+    for t, p in zip(true_labels, pred_labels):
+        cm[int(t), int(p)] += 1
+
+    fig, ax = plt.subplots(figsize=(7, 6))
+    # Log-ish scaling so off-diagonal mistakes stay visible next to the
+    # overwhelming diagonal.
+    im = ax.imshow(np.log1p(cm), cmap="Blues")
+    ax.set_xticks(range(num_classes))
+    ax.set_yticks(range(num_classes))
+    ax.set_xlabel("predicted class")
+    ax.set_ylabel("true class")
+    ax.set_title(title)
+    ax.grid(False)
+
+    threshold = np.log1p(cm).max() / 2.0
+    for i in range(num_classes):
+        for j in range(num_classes):
+            if cm[i, j] == 0:
+                continue
+            ax.text(j, i, str(cm[i, j]), ha="center", va="center", fontsize=7,
+                    color="white" if np.log1p(cm[i, j]) > threshold else "black")
+
+    fig.colorbar(im, ax=ax, shrink=0.8, label="log(1 + count)")
+    fig.savefig(out_path)
+    plt.close(fig)
+    return out_path
+
+
 def plot_predictions_grid(images: np.ndarray, true_labels: np.ndarray,
                           pred_labels: np.ndarray, out_path: str,
                           n: int = 16,

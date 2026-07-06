@@ -1,5 +1,9 @@
 # tensorgrad
 
+[![tests](https://github.com/akremzarrouk/tensorgrad/actions/workflows/ci.yml/badge.svg)](https://github.com/akremzarrouk/tensorgrad/actions/workflows/ci.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 **A reverse-mode automatic differentiation engine and neural-network library,
 built from scratch in Python - and trained to 97.7% accuracy on real
 handwritten digits.**
@@ -117,6 +121,21 @@ Sample predictions on unseen test digits:
 
 ![Sample predictions](figures/mnist_predictions.png)
 
+The confusion matrix over the full test set shows the errors are the
+*plausible* ones - the model's most common confusions (4 vs 9, 3 vs 5, 7 vs 2)
+are exactly the digit pairs humans find ambiguous:
+
+![Confusion matrix](figures/mnist_confusion_matrix.png)
+
+### Learning a boundary no line can draw
+
+Three interleaved spiral arms are impossible to separate with any straight
+line. A small MLP trained with the engine learns to carve the plane into
+spiral-shaped regions (99.4% accuracy) - a direct picture of what hidden
+layers buy you:
+
+![Spirals decision boundary](figures/spirals_decision_boundary.png)
+
 ### Watching gradients vanish
 
 Because the engine exposes every gradient, classic deep-learning phenomena
@@ -142,18 +161,22 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Run the test suite (42 tests, including all gradient checks):
+Run the test suite (47 tests, including all gradient checks):
 
 ```bash
 pytest -q
 ```
 
+The same suite runs in CI on Linux and Windows across Python 3.10 and 3.12
+(see the badge at the top).
+
 Reproduce the results:
 
 ```bash
-python experiments/train_mnist.py             # MNIST download is automatic (~11 MB)
-python experiments/computation_graph_demo.py  # the graph figure above
-python experiments/gradient_flow_demo.py      # the vanishing-gradient figure
+python experiments/train_mnist.py                 # MNIST download is automatic (~11 MB)
+python experiments/spirals_decision_boundary.py   # the spiral-boundary figure
+python experiments/computation_graph_demo.py      # the graph figure above
+python experiments/gradient_flow_demo.py          # the vanishing-gradient figure
 ```
 
 Or use it as a library:
@@ -185,11 +208,12 @@ tensorgrad/
   functional.py  # stable softmax, cross-entropy, accuracy
   optim.py       # SGD, SGD+momentum, Adam
   data.py        # MNIST loader (auto-download), synthetic spirals, minibatches
-  viz.py         # training curves, gradient-flow plots, prediction grids
+  viz.py         # curves, gradient flow, decision boundaries, confusion matrix
   graph.py       # computation-graph renderer
-experiments/     # the three runnable experiments
-tests/           # 42 tests: behaviour + numerical gradient checks
+experiments/     # the four runnable experiments
+tests/           # 47 tests: behaviour + numerical gradient checks
 figures/         # generated results used in this README
+.github/         # CI: test suite on Linux + Windows, Python 3.10 and 3.12
 ```
 
 ## Design decisions
@@ -232,7 +256,7 @@ MIT - see [LICENSE](LICENSE).
 > stable losses, and the SGD, momentum, and Adam optimisers) and trained a
 > ~109,000-parameter network to **97.7% accuracy** on MNIST handwritten
 > digits in 30 seconds on a CPU. Every hand-derived gradient is verified
-> against numerical finite differences in a 42-test suite, and the engine can
+> against numerical finite differences in a 47-test suite, and the engine can
 > render its own computation graph - making the chain rule, and classic
 > effects like vanishing gradients, directly visible.
 

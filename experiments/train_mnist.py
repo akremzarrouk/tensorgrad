@@ -31,7 +31,7 @@ from tensorgrad.data import load_mnist, iterate_minibatches
 from tensorgrad.functional import cross_entropy, accuracy, predict
 from tensorgrad.optim import Adam
 from tensorgrad.viz import (plot_training_curves, plot_predictions_grid,
-                            plot_gradient_flow)
+                            plot_gradient_flow, plot_confusion_matrix)
 
 FIGURES_DIR = os.path.join(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))), "figures")
@@ -107,6 +107,15 @@ def main():
         X_test[:16], y_test[:16], predict(logits),
         os.path.join(FIGURES_DIR, "mnist_predictions.png"))
     print(f"saved {preds_path}")
+
+    # Confusion matrix over the full test set.
+    all_preds = np.concatenate([
+        predict(net(Tensor(xb)))
+        for xb, _ in iterate_minibatches(X_test, y_test, 1000, shuffle=False)])
+    cm_path = plot_confusion_matrix(
+        y_test, all_preds, os.path.join(FIGURES_DIR, "mnist_confusion_matrix.png"),
+        title=f"Confusion matrix on the 10,000-image test set")
+    print(f"saved {cm_path}")
 
     # Gradient flow snapshot: one fresh backward pass on a batch.
     net.zero_grad()
