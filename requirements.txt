@@ -1,0 +1,9 @@
+# Core dependencies for tensorgrad.
+# The autograd engine itself uses ONLY NumPy for array math — no deep-learning
+# framework (PyTorch / TensorFlow / JAX / autograd) is used for differentiation.
+numpy>=1.24
+matplotlib>=3.7      # training curves and gradient-flow plots
+networkx>=3.0        # computation-graph diagram layout (pure Python, no system deps)
+
+# Development / testing
+pytest>=7.0
