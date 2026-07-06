@@ -1,7 +1,7 @@
 """Render the computation graph of a tiny one-neuron network.
 
-Builds loss = (tanh(w*x + b) - target)^2 — a single neuron with a squared
-error — runs the backward pass, and draws the engine's actual recorded graph
+Builds loss = (tanh(w*x + b) - target)^2 - a single neuron with a squared
+error - runs the backward pass, and draws the engine's actual recorded graph
 with the forward value and gradient on every node. This is the picture that
 makes reverse-mode autodiff concrete: you can follow the chain rule box by box.
 

@@ -8,7 +8,7 @@ We use the symmetric (central) difference
 
     df/dx_i  ≈  (f(x + eps * e_i) - f(x - eps * e_i)) / (2 * eps)
 
-which has error O(eps^2) — far more accurate than the one-sided difference — and
+which has error O(eps^2) - far more accurate than the one-sided difference - and
 then measure agreement with the analytical gradient using a scale-invariant
 relative error. If the hand-derived backward pass is correct, the two agree to
 roughly single-float precision.

@@ -2,8 +2,8 @@
 
 The softmax and cross-entropy here are implemented with the standard
 *log-sum-exp* stabilisation. Rather than computing ``softmax`` and then its log
-(which overflows for large logits), we subtract the per-row max — a constant
-that does not change the result — before exponentiating. The classic identity is
+(which overflows for large logits), we subtract the per-row max - a constant
+that does not change the result - before exponentiating. The classic identity is
 
     log softmax(z)_i = z_i - max(z) - log( sum_j exp(z_j - max(z)) )
 

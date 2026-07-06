@@ -4,10 +4,10 @@ Each optimiser owns a list of parameter tensors and, on :meth:`step`, updates
 their ``.data`` in place using the ``.grad`` populated by the backward pass.
 Two update rules are provided:
 
-* :class:`SGD` — stochastic gradient descent, with optional (heavy-ball)
+* :class:`SGD` - stochastic gradient descent, with optional (heavy-ball)
   momentum. ``momentum=0`` gives vanilla SGD; ``momentum=0.9`` gives the
   standard momentum method.
-* :class:`Adam` — adaptive moment estimation, the widely used default that keeps
+* :class:`Adam` - adaptive moment estimation, the widely used default that keeps
   per-parameter running estimates of the gradient's first and second moments.
 """
 

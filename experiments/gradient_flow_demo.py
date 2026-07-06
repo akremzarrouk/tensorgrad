@@ -1,11 +1,11 @@
 """Visualise healthy vs vanishing gradients on the spirals dataset.
 
-Trains nothing — this experiment takes a *single* backward pass through two
+Trains nothing - this experiment takes a *single* backward pass through two
 deep MLPs on the synthetic spirals data:
 
 * a ReLU network, where gradient magnitudes stay roughly stable with depth;
 * a sigmoid network, where each layer multiplies in a factor <= 0.25, so
-  gradients shrink visibly toward the early layers — the classic vanishing-
+  gradients shrink visibly toward the early layers - the classic vanishing-
   gradient effect that motivated ReLU.
 
     python experiments/gradient_flow_demo.py

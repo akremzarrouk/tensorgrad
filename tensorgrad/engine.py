@@ -2,7 +2,7 @@
 
 This module implements reverse-mode automatic differentiation (a.k.a.
 backpropagation) from first principles. The only external dependency is NumPy,
-and it is used *purely* for fast array arithmetic on the forward pass — every
+and it is used *purely* for fast array arithmetic on the forward pass - every
 derivative below is derived and coded by hand.
 
 The design follows the classic "define-by-run" (dynamic graph) style used by

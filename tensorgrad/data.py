@@ -2,10 +2,10 @@
 
 Two data sources are provided:
 
-* :func:`load_mnist` — the real handwritten-digit benchmark. The four IDX files
+* :func:`load_mnist` - the real handwritten-digit benchmark. The four IDX files
   are downloaded once (from a public mirror) and cached locally; subsequent
   calls read from disk. This is the "real task" the network is trained on.
-* :func:`make_spirals` — a small synthetic 2-D classification problem that runs
+* :func:`make_spirals` - a small synthetic 2-D classification problem that runs
   fully offline. It is handy for quick demos, the gradient-flow visualisation,
   and tests that must not touch the network.
 
@@ -111,7 +111,7 @@ def make_spirals(points_per_class: int = 100, num_classes: int = 3,
 
     Returns ``(X, y)`` with ``X`` of shape ``(points_per_class*num_classes, 2)``
     and integer labels ``y``. The classes are not linearly separable, so a
-    network must learn a non-linear decision boundary — a good, fast smoke test.
+    network must learn a non-linear decision boundary - a good, fast smoke test.
     """
     rng = np.random.RandomState(seed)
     n = points_per_class

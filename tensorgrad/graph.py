@@ -2,7 +2,7 @@
 
 Because the engine records every operation (each Tensor knows its parents in
 ``_prev`` and the op that produced it), we can draw the *actual* graph that
-``backward()`` walks — not an idealised diagram. Each node shows the tensor's
+``backward()`` walks - not an idealised diagram. Each node shows the tensor's
 label/op, its forward value, and the gradient deposited by the backward pass,
 making the chain rule visible end to end.
 
