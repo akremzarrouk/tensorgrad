@@ -23,3 +23,6 @@ packages = ["tensorgrad"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Put the repo root on sys.path so `import tensorgrad` works when pytest is
+# invoked bare (python -m pytest adds it implicitly, plain pytest does not).
+pythonpath = ["."]
